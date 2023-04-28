@@ -1,0 +1,29 @@
+on: [workflow_dispatch] 
+
+name: AzureWebAppContainer 
+
+env: 
+  CONTAINER_REGISTRY: timcr01.azurecr.io 
+  
+jobs: 
+  azurecontainer: 
+    runs-on: ubuntu-latest 
+    
+    steps: 
+      - name: Login to Azure 
+        uses: azure/login@v1 
+        with: 
+          creds: '${{ secrets.AZURE_CREDENTIALS }}' 
+          
+      - name: ACR Login 
+        uses: docker/login-action@v2 
+        with: 
+          registry: ${{ env.CONTAINER_REGISTRY }} 
+          username: timcr01 
+          password: ${{ secrets.ACR_PWD }} 
+          
+      - name: 'Deploy to Azure Web App for Container' 
+        uses: azure/webapps-deploy@v2 
+        with: 
+          app-name: timwebapp01 
+          images: ${{ env.CONTAINER_REGISTRY }}/nginx:timcopy
