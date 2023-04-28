@@ -25,5 +25,5 @@ jobs:
       - name: 'Deploy to Azure Web App for Container' 
         uses: azure/webapps-deploy@v2 
         with: 
-          app-name: timwebapp01
+          app-name: 'timwebapp01'
           images: ${{ env.CONTAINER_REGISTRY }}/nginx:timcopy
